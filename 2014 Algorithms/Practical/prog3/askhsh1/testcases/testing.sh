@@ -1,0 +1,16 @@
+#!/bin/bash
+value=0;
+
+while [ $value -le 20 ]
+do
+time ./../highway < "input$value.txt"
+# > "tempout"
+value=`expr $value + 1`;
+done
+
+#while read line
+#do
+#echo $value;
+#done < "myfile"
+
+#echo $value;

@@ -1,0 +1,10 @@
+SELECT SUM(dep.minutes-arr.minutes) AS 'Tension of Waiting Activities'
+	FROM stop_times arr
+		INNER JOIN stop_times dep
+		ON arr.stop_id = dep.stop_id -- same station
+		AND arr.trip_id = dep.trip_id -- same line
+		AND arr.stop_sequence > 0 -- not first station of arr
+			INNER JOIN stop_times next -- not last of dep
+			ON dep.trip_id = next.trip_id
+			AND next.stop_sequence = dep.stop_sequence+1
+; -- file is here for comppleteness reasons. Of course the waiting tension is 0, if every waiting time is 0

@@ -1,0 +1,137 @@
+#include<iostream>
+
+using namespace std;
+
+
+/*
+ function partition(list, left, right, pivotIndex)
+     pivotValue := list[pivotIndex]
+     swap list[pivotIndex] and list[right]  // Move pivot to end
+     storeIndex := left
+     for i from left to right-1
+         if list[i] <= pivotValue
+             swap list[storeIndex] and list[i]
+             increment storeIndex
+     swap list[right] and list[storeIndex]  // Move pivot to its final place
+     return storeIndex
+*/
+unsigned long long int quickselect(unsigned long long int* A, unsigned long long int k, unsigned long long int start, unsigned long long int end) {
+  unsigned long long int pivot=A[start];
+  unsigned long long int left=start;
+  unsigned long long int right=end;
+  unsigned long long int temp;
+  while(left<right) {
+    while(A[left]<=pivot) left++;
+    while(A[right]>pivot) right--;
+    temp=A[left];
+    A[left]=A[right];
+    A[right]=temp;
+  }
+  A[right]=A[left];
+  if(left==k) return A[start];
+  else if(left>k) return quickselect(A,k,start,right);
+  else return quickselect(A,k,left,end);
+}
+
+unsigned long long int dist(unsigned long long int x,unsigned long long int y) {
+  if(x<y) return y-x;
+  else return x-y;
+}
+unsigned long long int min(unsigned long long int a,unsigned long long int b,unsigned long long int c,unsigned long long int d) {
+  if(a<b) {
+    if(a<c) {
+      if(a<d) return a;
+      else return d;
+    }
+    else {
+      if(c<d) return c;
+      else return d;
+    }
+  }
+  else {
+    if(b<c) {
+      if(b<d) return b;
+      else return d;
+    }
+    else {
+      if(c<d) return c;
+      else return d;
+    }
+  }
+}
+int main() {
+  unsigned long long int N;
+  cin>>N;
+  unsigned long long int A[N][2];
+  unsigned long long int sumx=0;
+  unsigned long long int sumy=0;
+  for(unsigned long long int i=0;i<N;i++) {
+    cin>>A[i][0];
+    cin>>A[i][1];
+    sumx+=A[i][0];
+    sumy+=A[i][1];
+  }
+//finding the medians
+
+  unsigned long long int Bx[N],By[N];
+  for(unsigned long long int i=0;i<N;i++) {
+    Bx[i]=A[i][0];
+    By[i]=A[i][1];
+  }
+  unsigned long long int medianx,mediany;
+  medianx=quickselect(Bx,(N+1)/2,0,N-1);
+  mediany=quickselect(By,(N+1)/2,0,N-1);
+  cout<<medianx<<" "<<mediany<<endl;
+
+
+  unsigned long long int barx,bary;
+  barx=sumx/N;
+  bary=sumy/N;
+  unsigned long long int solx=A[0][0];
+  unsigned long long int soly=A[0][1];
+  for(unsigned long long int i=1;i<N;i++) {
+    if(dist(solx,barx)+dist(soly,bary)>dist(A[i][0],barx)+dist(A[i][1],bary)) {
+      solx=A[i][0];
+      soly=A[i][1];
+    }
+  }
+  unsigned long long int d=dist(solx,barx)+dist(soly,bary);
+  unsigned long long int center[N][2];
+  unsigned long long int centernm=0;
+  for(unsigned long long int i=0;i<N;i++) {
+    if(d==dist(A[i][0],barx)+dist(A[i][1],bary)) {
+      center[centernm][0]=A[i][0];
+      center[centernm][1]=A[i][1];
+      centernm++;
+    }
+  }
+//  cout<<"kentro: "<<barx<<" "<<bary<<endl;
+//  cout<<"apostash: "<<d<<" plhthos: "<<centernm<<endl;
+  unsigned long long int soldist;
+  soldist=0;
+  for(unsigned long long int i=0;i<N;i++) {
+    soldist+=dist(center[0][0],A[i][0]);
+    soldist+=dist(center[0][1],A[i][1]);
+  }
+//  for(int i=0;i<centernm;i++) cout<<center[i][0]<<" "<<center[i][1]<<endl;
+//  cout<<soldist<<endl;
+  for(unsigned long long int i=1;i<centernm;i++) {
+    unsigned long long int partialsoldist=0;
+    for(unsigned long long int j=0;j<N;j++) {
+      partialsoldist+=dist(center[i][0],A[j][0]);
+      partialsoldist+=dist(center[i][1],A[j][1]);
+    }
+//    cout<<partialsoldist<<endl;
+    if(partialsoldist<soldist) soldist=partialsoldist;
+  }
+  cout<<soldist<<endl;
+  return 0;
+}
+
+
+
+
+
+
+
+

@@ -1,0 +1,18 @@
+Compiling through
+$g++ ./produce_lp.cpp
+throughs a warning about a bad designed non-void function which could theoretically not return a result. One can safely ignore it.
+
+This program expects in stdin the following input:
+an integer n, denoting the number of stations of the network
+an integer L, denoting the number of unoriented Lines of the network
+for each l in 1,...,L:
+	an integer num_s, denoting the number of stations of line l
+	a sequence of num_s integers (each one of them in {1,...,n}), denoting the sequence of the stations that the line l visits - in the right order. This order is going to be symbolized with ')' in the output and the reversed with '('.
+	a sequence of num_s-1 integers, denoting the driving time between the stations of line l, in the same order.
+an inteeger T, denoting the period
+two integers wl and wu, denoting the possible lengths of the waiting activities of every station.
+two integers tl and tu, with tu-tl=T-1, denoting the possible lengths of the travel activities of every station.
+The input for the particular problem is in the file "./network.in".
+
+The program returns (hopefully) in stdout the cycle-and-slack MIP formulation of the input PESP instance in SCIP readable form.
+The output for the particular problem is in the file "./network.lp".

@@ -1,0 +1,5 @@
+The code in 3b.cpp returns in stout an lp program.
+The file 3b.lp has already this output.
+The file 3b.sol is the solution produced by SCIP on the input of 3b.lp
+
+The file 3b.sh compiles 3b.cpp, runs it and redirects its output to 3b.lp and then uses SCIP to optimize the MIP and write the solution in 3b.sol

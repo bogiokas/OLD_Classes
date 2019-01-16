@@ -1,0 +1,62 @@
+#include<iostream>
+
+using namespace std;
+
+int N;
+int p[2501];
+
+int w[2501][2501];
+int best[2501][2501];
+
+int min(int x,int y) {
+  if(x<y) return x;
+  else return y;
+}
+
+int max(int x,int y) {
+  if(x>y) return x;
+  else return y;
+}
+
+int computew(int i, int j);
+int computebest(int i, int j);
+
+int quickfind(int i, int j, int left, int right) {
+  if(left==right||left==right-1) return left;
+  else {
+    int k=(left+right)/2;
+    if(computebest(i,k)+computew(i,k)>=computebest(k+1,j)+computew(k+1,j)) return quickfind(i,j,left,k);
+    else return quickfind(i,j,k,right);
+  }
+}
+
+int computew(int i, int j) {
+  if(i>j) return 0;
+  else {
+    if(w[i][j]==0) {
+      if(i==j) w[i][j]=p[i];
+      else w[i][j]=p[j]+computew(i,j-1);
+    }
+    return w[i][j];
+  }
+}
+
+int computebest(int i, int j) {
+  if(i>=j) return 0;
+  else {
+    if(best[i][j]==0) {
+      int k=quickfind(i,j,i-1,j);
+      int solkl=computebest(i,k)+computew(i,k);
+      int solkr=computebest(k+2,j)+computew(k+2,j);
+      best[i][j]=max(solkl,solkr);
+    }
+  }
+  return best[i][j];
+}
+
+int main() {
+  cin>>N;
+  for(int i=1;i<=N;i++) cin>>p[i];
+  cout<<computebest(1,N)<<endl<<endl;
+  return 0;
+}

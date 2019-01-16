@@ -1,0 +1,87 @@
+\documentclass[12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%  MATH  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsmath,amsthm,amssymb} %math
+\usepackage{xfrac} %sfrac
+\usepackage{faktor} %better than sfrac
+\usepackage{dutchcal} %some font for mathcal
+\usepackage{array}
+%\everymath{\displaystyle} %to show every math big
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%  OTHER PACKAGES  %%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[utf8]{inputenc} %encoding
+\usepackage{geometry} %page size and margins
+\usepackage{makeidx} %indexing
+\usepackage{graphicx} %inclusion of graphics
+\usepackage{wrapfig} %wrap text around figures
+\usepackage{xstring} %manipulate strings
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%  TIKZ 4 LIFE  %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{tikz}
+\usetikzlibrary{cd} %commutative diagrams
+\usetikzlibrary{decorations} %curved lines
+\usetikzlibrary{positioning} %coordinates positioning
+\usetikzlibrary{3d,calc} %coordinate calculations & 3d
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%  CUSTOMIZE THE LOOKS  %%%%%%%%%%%%%%%%%%%
+\geometry{headheight=15pt}
+\setlength\parindent{0pt} %no indentation
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%  ENUMERATE / ITEMIZE  %%%%%%%%%%%%%%%%%%%
+\usepackage{enumerate} %enumerate/itemize (has to be first)
+\usepackage{enumitem} %customize enumerate/itemize
+ \setlist{nolistsep} %<=> [nosep] <=> Kills vert sep <=> ![listsep]
+\newenvironment{n_enum}{\begin{enumerate}[label=(\arabic{*})]}{\end{enumerate}} %1,2,3,...
+\newenvironment{i_enum}{\begin{enumerate}[label=(\roman{*})]}{\end{enumerate}} %i,ii,iii,...
+\newenvironment{a_enum}{\begin{enumerate}[label=(\alph{*})]}{\end{enumerate}} %a,b,c,...
+\newenvironment{b_item}{\begin{itemize}}{\end{itemize}} %bullets
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%  MATH NOTATIONS  %%%%%%%%%%%%%%%%%%%%%%%%
+\newenvironment{eqarray}{\begin{array}{>{\displaystyle}r>{\displaystyle}c>{\displaystyle}l}}{\end{array}}
+\newcommand\Hom{\mathrm{Hom}}
+\newcommand\NHom{\mathrm{NHom}}
+\newcommand\ChRmod{Ch($R$-mod)}
+\newcommand\ChZmod{Ch($\mathbb{Z}$-mod)}
+\newcommand\KRmod{$\mathcal{K}$($R$-mod)}
+\newcommand\Csing[1]{C^{\mathrm{sing}}\left(#1\right)}
+\newcommand\Dtop[1]{\Delta^{\mathrm{top}}\left(#1\right)}
+\newcommand\Tor{\mathrm{Tor}}
+\newcommand\Ext{\mathrm{Ext}}
+\newcommand\Mod{\mathrm{Mod}}
+\newcommand\Ab{\mathrm{Ab}}
+\newcommand\map{\mathrm{map }}
+\newcommand\im{\mathrm{im\ }}
+\newcommand\tensor{\otimes}
+%\newcommand\ker{\mathrm{ker}}
+\newcommand\coim{\mathrm{coim\ }}
+\newcommand\coker{\mathrm{coker\ }}
+\newcommand\cupdot{\mathbin{\mathaccent\cdot\cup}}
+\newcommand\rank{\mathrm{rank}}
+\newcommand\val{\mathrm{val}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%  OTHER NOTATIONS  %%%%%%%%%%%%%%%%%%%%%%%
+\newcommand\ul[1]{\emph{#1}}
+\newcommand\nospace{\hspace*{-0.5em}}
+\newcommand\HRule{\rule{\linewidth}{0.1mm}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%  BEGIN DOCUMENT  %%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\begin{center}
+{\bf Constructive Combinatorics}\\
+Problem Set 7
+\end{center}
+So 2018 \hfill Dimitrios Bogiokas - BMS\\
+\phantom{X}\hfill FU ID: 5048996\\
+\HRule\\
+{\bf Exercise 1} We organized the relevant information of ``wien.zip'' in a mysql db ``wien.sql'' which you can find in the attachement. For each question you can also find the queries we used to compute the answer, each in a ``.mysql'' file. (I hope you can open everything - I've never tried to output and send a db before). Either way, the column names are almost the ones from the csv files in wien.zip. The only big difference is that we only keeped the minutes from the timestamp in stop\_times table.
+\begin{a_enum}\item Let $\mathcal{N}=(G,\mathcal{L})$ be the line network. Then $n(G)=19$ and $m(G)=25$.
+\item The driving, waiting and transfer activities are $50$, $40$ and $138$, respectively.
+\item The sum of the periodic tension of all driving activities is $303$, of all waiting $0$ and of all transfer activities $604$, which makes a total periodic tension of $907$.
+\end{a_enum}
+\ \\
+{\bf Exercise 2} We developed a C++ program which (in theory) takes a line network, produces the periodic EAN, computes a spanning tree and a cycle basis for every non-edge of this tree and finally produces an lp file containing a MIP cycle-and-slack formulation of the problem. Unfortunately both SCIP and NEOS are convinced that my problem is infeasible, so I suppose there is a bug hidden somewhere, which I could not locate since yesterday. A (supposed) cycle basis is in the network.lp file to find. The variables are of the form:
+\begin{center}
+X[0-2][($|$)][0-3][a$|$d]\_X[0-2][($|$)][0-3][a$|$d]
+\end{center}
+where: \_ orders two events, each one of them starts with X and regarding the rest: [0-2] stands for the line number, [($|$)] stands for the direction choice, [0-3] stands for the stop number of the line and [a$|$d] stands for arrival or departure. Of course, this variable denotes the according oriented activity (from the left event to the right one).
+\end{document}

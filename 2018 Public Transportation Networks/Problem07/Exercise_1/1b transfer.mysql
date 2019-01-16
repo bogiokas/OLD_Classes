@@ -1,0 +1,10 @@
+SELECT COUNT(*) AS '# of Transfer Activities'
+	FROM stop_times arr
+		INNER JOIN stop_times dep
+		ON arr.stop_id = dep.stop_id -- same station
+		AND arr.trip_id != dep.trip_id -- not the same line
+		AND arr.stop_sequence > 0 -- not first station of arr
+			INNER JOIN stop_times next -- not last of dep
+			ON dep.trip_id = next.trip_id
+			AND next.stop_sequence = dep.stop_sequence+1
+;

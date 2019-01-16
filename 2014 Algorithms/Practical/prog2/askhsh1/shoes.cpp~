@@ -1,0 +1,79 @@
+#include<iostream>
+
+using namespace std;
+typedef long long int ulong;
+
+int L,R;
+int lefttype[102];
+int righttype[102];
+ulong leftamount[102];
+ulong rightamount[102];
+
+ulong Shoes[102][150][102][150];
+
+ulong translate[150];
+ulong tpointer=1;
+
+int search(ulong x) {
+  int l=1;
+  bool foundzero=false;
+  while(!foundzero) {
+    if(translate[l]==0) foundzero=true;
+    if(translate[l]==x) return l;
+    l++;
+  }
+  return 0;
+}
+
+int index(ulong x) {
+  int l=search(x);
+  if(l==0) {
+    translate[tpointer]=x;
+    tpointer++;
+cout<<tpointer-1<<endl;
+    return tpointer-1;
+  }
+  return l;
+}
+
+
+ulong max(ulong x,ulong y) {
+  if(x>y) return x;
+  else return y;
+}
+
+ulong shoes(int i,ulong ai, int j, ulong bj) {
+  if(i>L||j>R) return 0;
+  else {
+    ulong solution=Shoes[i][index(ai)][j][index(bj)];
+    if(solution==0) {
+      if(lefttype[i]!=righttype[j]) solution=max(shoes(i,ai,j+1,rightamount[j+1]),shoes(i+1,leftamount[i+1],j,bj));
+      else {
+        if(ai==bj) solution=ai+shoes(i+1,leftamount[i+1],j+1,rightamount[j+1]);
+        else if(ai>bj) solution=bj+shoes(i,ai-bj,j+1,rightamount[j+1]);
+        else solution=ai+shoes(i+1,leftamount[i+1],j,bj-ai);
+      }
+      Shoes[i][index(ai)][j][index(bj)]=solution;
+    }
+    return solution;
+  }
+}
+
+
+
+int main() {
+  cin>>L;
+  cin>>R;
+  for(int i=1;i<=L;i++) {
+    cin>>leftamount[i];
+    cin>>lefttype[i];
+  }
+  for(int i=1;i<=R;i++) {
+    cin>>rightamount[i];
+    cin>>righttype[i];
+  }
+  cout<<"---------------->"<<shoes(1,leftamount[1],1,rightamount[1])<<endl;
+//  for(int i=1;i<tpointer;i++) cout<<i<<" "<<translate[i]<<endl;
+  return 0;
+}
+

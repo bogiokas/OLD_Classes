@@ -1,0 +1,43 @@
+#include<iostream>
+#include <algorithm>
+#include<cmath>
+
+using namespace std;
+
+struct edge {
+  int u;
+  int v;
+  int time;
+};
+int edgecompare (const void* a,const void* b) {
+  return (((edge*)b)->time-((edge*)a)->time);
+}
+
+int N,M,K;
+
+edge graph[300001];
+bool visited[300001];
+edge spanningtree[300001];
+
+int main() {
+  cin>>N>>M>>K;
+  for(int i=1;i<=M;i++) {
+    cin>>graph[i].u>>graph[i].v>>graph[i].time;
+  }
+  qsort(&graph[1],M,3*sizeof(int),edgecompare);
+
+  int connectedsize=0;
+  int spanningsize=0;
+
+  for(int i=1;i<=M;i++) {
+    if(!visited[graph[i].u]||!visited[graph[i].v]) {
+      spanningtree[++spanningsize]=graph[i];
+      visited[graph[i].u]=true;
+      visited[graph[i].v]=true;
+    }
+  }
+  if(spanningsize<=K) cout<<"infinity"<<endl;
+  for(int i=1;i<=spanningsize;i++) cout<<spanningtree[i].u<<" "<<spanningtree[i].v<<" "<<spanningtree[i].time<<endl;
+  else cout<<spanningtree[spanningsize-K].time<<endl;
+  return 0;
+}

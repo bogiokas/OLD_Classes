@@ -1,0 +1,450 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{geometry}
+\usepackage{makeidx}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{tikz}
+\usepackage{xfrac}
+\usepackage{array}
+\usepackage{color}
+\usepackage{listings}
+\lstset{ %
+language=C++,
+basicstyle=\footnotesize,
+numbers=left,
+numberstyle=\footnotesize,
+stepnumber=1,
+numbersep=5pt,
+backgroundcolor=\color{white},
+showspaces=false,% show spaces adding particular underscores
+showstringspaces=false,% underline spaces within strings
+showtabs=false,% show tabs within strings adding particular underscores
+tabsize=2,% sets default tabsize to 2 spaces
+captionpos=b,% sets the caption-position to bottom
+breaklines=true,% sets automatic line breaking
+breakatwhitespace=false,
+escapeinside={\%*}{*)}          % if you want to add a comment within your code
+}
+\usepackage{xstring}
+
+\usepackage[english,greek]{babel}
+\usepackage[utf8x]{inputenc}
+%\usepackage{ucs}
+
+\usepackage{enumerate}
+\usepackage{enumitem}
+\setlist{nolistsep}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=MidnightBlue}
+
+\newcommand\en[1]{\latintext #1\greektext}
+\newcommand\m[1]{\mbox{$\displaystyle #1 $}}
+\newcommand\ul[1]{\emph{#1}}
+\newcommand\bigOh{\mathcal{O}}
+\newcommand\nospace{\hspace*{-0.5em}}
+
+\renewcommand{\thefootnote}{*}
+
+\newenvironment{n_enum}{
+\begin{enumerate}[label=(\arabic{*})]
+  \setlength{\itemsep}{0pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+}{\end{enumerate}}
+
+\newenvironment{i_enum}{
+\begin{enumerate}[label=(\roman{*})]
+  \setlength{\itemsep}{0pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+}{\end{enumerate}}
+
+\newenvironment{a_enum}{
+\begin{enumerate}[label=(\alph{*})]
+  \setlength{\itemsep}{0pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+}{\end{enumerate}}
+
+\newenvironment{b_item}{
+\begin{itemize}
+  \setlength{\itemsep}{0pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+}{\end{itemize}}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.1mm}}
+
+\begin{document}
+\begin{center}
+{\bf Αλγόριθμοι και πολυπλοκότητα}\\
+1η Σειρά Γραπτών ασκήσεων
+\end{center}
+Χειμερινό Εξάμηνο 2013-2014 \hfill Μπογιόκας Δημήτριος - ΜΠΛΑ
+\HRule\\
+{\bf Άσκηση 1}(α) Ισχύουν τα:
+\begin{i_enum}
+\item$5n=\Theta(n)$
+\item$\left(\log n\right)^{\log n}=2^{\log n\log\log n}=n^{\log\log n}=\Theta\left(n^{\log\log n}\right)$
+\item$\frac{\log\left(n!\right)}{n}=\Theta\left(\frac{n\log n}{n}\right)=\Theta\left(\log n\right)$
+\item$n\cdot2^{2^{2^{100}}}=\Theta\left(n\right)$
+\item$\log\left(\binom{n}{6}\right)=\log\left(\frac{n\left(n-1\right)\cdots\left(n-5\right)}{6!}\right)=\Theta\left(\log\left(n^6\right)\right)=\Theta\left(\log n\right)$
+\item$\sum_{k=1}^nk^5=\Theta\left(n^6\right)$
+\item$\log^4n=\Theta\left(\log^4n\right)$
+\item$\sqrt{n!}=\Theta\left(\sqrt{\sqrt{2\pi n}\left(\frac{n}{e}\right)^n}\right)=\Theta\left(\frac{n^{\frac{1}{4}}n^{\frac{n}{2}}}{\sqrt{e}^n}\right)$ (από τον τύπο του \en{Stirling})
+\item$e^n=\Theta\left(e^n\right)$
+\item$\frac{n^2}{\log^{10}n}=\Theta\left(\frac{n^2}{\log^{10}n}\right)$
+\item$\left(\log n\right)^{\log\left(16 n\right)}=\left(\log n\right)^4\left(\log n\right)^{\log n}=\Theta\left(n^{\log\log n}\log^4n\right)$
+\item$\log\left(\binom{2n}{n}\right)=\log\left(\left(2n\right)!\right)-2\log\left(n!\right)=\Theta\left(n\right)$\\
+Πράγματι, από το Θεώρημα \en{Ces\'aro-Stolz}, ισχύει:\\
+$\begin{array}{lcl}
+\lim_{n\to\infty}\frac{\log\left(\left(2n\right)!\right)-2\log\left(n!\right)}{n}
+&=&\lim_{n\to\infty}\frac{\log\left(\left(2n+2\right)!\right)-2\log\left(\left(n+1\right)!\right)-\log\left(\left(2n\right)!\right)+2\log\left(n!\right)}{n+1-n}=\\
+&=&\lim_{n\to\infty}\left(\log\left(\left(2n+1\right)\left(2n+2\right)\right)-\log\left(\left(n+1\right)^2\right)\right)\\
+&=&\lim_{n\to\infty}\log\frac{4n^2+5n+2}{n^2+2n+1}\\
+&=&\log4=2>0
+\end{array}$
+\item$n\left(2.5\right)^n=\Theta\left(n\left(2.5\right)^n\right)$
+\item$\binom{2n}{n}=\Theta\left(\frac{4^n}{n^{\frac{1}{2}}}\right)$\\
+Πράγματι, από τον τύπο του \en{Stirling}, ισχύει:\\
+$\frac{\left(2n\right)!}{\left(n!\right)^2}=\Theta\left(\frac{\sqrt{2\pi2n}\left(\frac{2n}{e}\right)^{2n}}{\sqrt{2\pi n}^2\left(\frac{n}{e}\right)^{2n}}\right)=\Theta\left(\frac{1}{\sqrt{\pi n}}\cdot2^{2n}\right)=\Theta\left(\frac{4^n}{n^{\frac{1}{2}}}\right)$
+\item$\sum_{i=1}^ni2^i=\Theta\left(n2^n\right)$\\
+Πράγματι, ισχύει: $\sum_{i=1}^ni2^i=\sum_{i=1}^n\sum_{j=1}^i2^i=\sum_{j=1}^n\sum_{i=j}^n2^i=\sum_{j=1}^n2^j\sum_{i=j}^n2^{i-j}=\sum_{j=1}^n2^j\sum_{s=0}^{n-j}2^s=\sum_{j=1}^n2^j\frac{2^{n-j+1}-1}{2-1}=\sum_{j=1}^n2^{n+1}-\sum_{j=1}^n2^j=n2^{n+1}-2\frac{2^{n+1}-1}{2-1}=\left(n-1\right)2^{n+1}-1=\Theta\left(n2^n\right)$
+\item$\sum_{i=1}^n\frac{i}{2^i}=\Theta\left(1\right)$\\
+Πράγματι, ισχύει: $\sum_{i=1}^n\frac{i}{2^i}=\sum_{i=1}^n\sum_{j=1}^i\left(\frac{1}{2}\right)^i=\sum_{j=1}^n\sum_{i=j}^n\left(\frac{1}{2}\right)^i=\sum_{j=1}^n\left(\frac{1}{2}\right)^j\sum_{i=j}^n\left(\frac{1}{2}\right)^{i-j}=\sum_{j=1}^n\left(\frac{1}{2}\right)^j\sum_{s=0}^{n-j}\left(\frac{1}{2}\right)^s=\sum_{j=1}^n\left(\frac{1}{2}\right)^j\frac{1-\left(\frac{1}{2}\right)^{n-j+1}}{1-\frac{1}{2}}=\sum_{j=1}^n\left(\frac{1}{2}\right)^{j-1}-\sum_{j=1}^n\left(\frac{1}{2}\right)^n=\frac{1-\left(\frac{1}{2}\right)^n}{1-\frac{1}{2}}-\left(\frac{1}{2}\right)^nn=2-\left(n+2\right)\left(\frac{1}{2}\right)^n$, όπου $\frac{1}{2}\leq2-\left(n+2\right)\left(\frac{1}{2}\right)^n\leq2$, για $n\geq1$.
+\end{i_enum}
+Άρα, η λύση είναι:\\
+$\bigOh\left(\sum_{i=1}^n\frac{i}{2^i}\right)\subset\bigOh\left(\frac{\log\left(n!\right)}{n}\right)=\bigOh\left(\log\left(\binom{n}{6}\right)\right)\subset\bigOh\left(\log^4n\right)\subset\bigOh\left(5n\right)=\bigOh\left(n\cdot2^{2^{2^{100}}}\right)=\bigOh\left(\log\left(\binom{2n}{n}\right)\right)\subset\bigOh\left(\frac{n^2}{\log^{10}n}\right)\subset\bigOh\left(\sum_{k=1}^nk^5\right)\subset\bigOh\left(\left(\log n\right)^{\log n}\right)\subset\bigOh\left(\left(\log n\right)^{16\log n}\right)\subset\bigOh\left(\sum_{i=1}^ni2^i\right)\subset\bigOh\left(n\left(2.5\right)^n\right)\subset\bigOh\left(e^n\right)\subset\bigOh\left(\binom{2n}{n}\right)\subset\bigOh\left(\sqrt{n!}\right)$\\
+\HRule\\
+{\bf Άσκηση 1}(β)
+\begin{i_enum}
+\item Έστω $m=\log_5n$, τότε:\\
+$\begin{array}{lcl}T\left(n\right)
+&=&5T\left(\frac{n}{5}\right)+n\log n\\
+&=&5^2T\left(\frac{n}{5^2}\right)+n\log\frac{n}{5}+n\log n\\
+&\vdots&\\
+&=&5^kT\left(\frac{n}{5^k}\right)+n\sum_{i=0}^{k-1}\log\frac{n}{5^i}\ \ \forall k\\
+&\overset{k=m}{=}&nT\left(1\right)+n\sum_{i=0}^{m-1}\log\frac{5^m}{5^i}\\
+&=&nT\left(1\right)+n\log5\sum_{i=0}^{m-1}\left(m-i\right)\\
+&=&nT\left(1\right)+n\frac{m\left(m+1\right)}{2}\log5=\Theta\left(n\log^2n\right)\\
+\end{array}$
+\item Έστω $m=\log_{10}n$, τότε:\\
+$\begin{array}{lcl}T\left(n\right)
+&=&9T\left(\frac{n}{10}\right)+\log^3n\\
+&=&9^2T\left(\frac{n}{10^2}\right)+9\log^3\frac{n}{10}+\log^3 n\\
+&\vdots&\\
+&=&9^kT\left(\frac{n}{10^k}\right)+\sum_{i=0}^{k-1}9^i\log^3\frac{n}{10^i}\ \ \forall k\\
+&\overset{k=m}{=}&9^{\log_{10}n}T\left(1\right)+\sum_{i=0}^{m-1}9^i\log^3\frac{10^m}{10^i}\\
+&=&n^{\log_{10}9}T\left(1\right)+\sum_{i=0}^{m-1}9^i\left(m-i\right)^3\\
+&=&n^{\log_{10}9}T\left(1\right)+9^m\log^310\sum_{s=1}^m\frac{s^3}{9^s}\\
+&=&n^{\log_{10}9}T\left(1\right)+n^{\log_{10}9}c=\Theta\left(n^{\log_{10}9}\right)\\
+\end{array}$\\
+όπου $0<\frac{1}{9}\log^310<c<\sum_{i=1}^\infty\frac{s^3}{9^s}\log^310<+\infty\Rightarrow c\in\Theta\left(1\right)$
+\item Έστω $m=\log_3n$, τότε:\\
+$\begin{array}{lcl}T\left(n\right)
+&=&2T\left(\frac{n}{3}\right)+\frac{n}{\log^2n}\\
+&=&2^2T\left(\frac{n}{3^2}\right)+\frac{3}{2}\frac{n}{\log^2\frac{n}{3}}+\frac{n}{\log^2 n}\\
+&\vdots&\\
+&=&2^kT\left(\frac{n}{3^k}\right)+n\sum_{i=0}^{k-1}\left(\frac{2}{3}\right)^i\frac{1}{\log^2\frac{n}{3^i}}\ \ \forall k\\
+&\overset{k=m}{=}&2^{\log_{10}n}T\left(1\right)+n\sum_{i=0}^{m-1}\left(\frac{2}{3}\right)^i\frac{1}{\log^2\frac{3^m}{3^i}}\\
+&=&n^{\log_{3}2}T\left(1\right)+n\log^{-2}3\sum_{i=0}^{m-1}\left(\frac{2}{3}\right)^i\frac{1}{\left(m-i\right)^2}\\
+&=&n^{\log_{3}2}T\left(1\right)+\frac{n}{\log_3^2n}\log^{-2}3\sum_{i=0}^{m-1}\left(\frac{2}{3}\right)^i\frac{1}{\left(1-\frac{i}{m}\right)^2}\\
+&=&n^{\log_32}T\left(1\right)+\frac{n}{\log_3^2n}c=\Theta\left(\frac{n}{\log^2n}\right)\\
+\end{array}$\\
+όπου $0<\log^{-2}3<c<\sum_{i=0}^\infty\left(\frac{2}{3}\right)^i\frac{1}{\left(1-\frac{i}{m}\right)^2}\log^{-2}3<+\infty\Rightarrow c=\Theta\left(1\right)$
+\item Θα δείξω ότι $T\left(n\right)=\Theta\left(n\right)$\\
+Ειδικότερα, αρκεί να δείξω ότι υπάρχει $n_0$, ώστε $4n\leq T\left(n\right)\leq5n$, για κάθε $n\geq n_0$. Έστω ότι υπάρχει $n_0$, για το οποίο ισχύει η ζητούμενη σχέση, για κάθε $n$ με $n_0\leq n<k$ (όπου $k>2n_0$), τότε, ισχύει:
+$$\frac{1}{6}4k+\frac{3}{5}4k+k\leq T\left(k\right)\leq\frac{1}{6}5k+\frac{3}{5}5k+k$$
+$$\Rightarrow 4k<\frac{61}{15}k\leq T\left(k\right)\leq\frac{29}{6}k<5k$$
+Με χρήση επαγωγής έπεται το ζητούμενο.
+\item Το δέντρο που δημιουργείται, με την αναδρομική κλήση του αλγορίθμου, έχει σε κάθε επίπεδο ακριβώς $n$ κόμβους, μέγιστο ύψος $\log_2n$ και ελάχιστο $\log_6n$, άρα τελικά, ο χρόνος που χρειάζεται είναι $\Theta\left(n\log n\right)$. Αυτό, γράφεται αυστηρά ως εξής: Έστω $m_1=\log n$ και $m_2=\log_6 n$, τότε:\\
+$\begin{array}{lcl}T\left(n\right)
+&=&T\left(\frac{n}{6}\right)+T\left(\frac{n}{2}\right)+T\left(\frac{n}{3}\right)+n\\
+&=&T\left(\frac{n}{6^2}\right)+T\left(\frac{n}{6\cdot2}\right)+T\left(\frac{n}{6\cdot3}\right)+T\left(\frac{n}{2\cdot6}\right)+T\left(\frac{n}{2^2}\right)+T\left(\frac{n}{2\cdot3}\right)+\\
+&&+T\left(\frac{1}{3\cdot6}\right)+T\left(\frac{1}{3\cdot2}\right)+T\left(\frac{1}{3^2}\right)+2n\\
+&\vdots&\\
+&=&\sum_{\tiny\begin{matrix}\left(r,s,t\right)\in\left\{0,\ldots,k\right\}^3\\r+s+t=k\\\end{matrix}}\frac{k!}{r!s!t!}T\left(\frac{n}{6^r\cdot2^s\cdot3^t}\right)+kn\ \ \ \forall k\ \ \ \ \left(*\right)\\
+&\overset{k=m_1}{=}&\sum_{\tiny\begin{matrix}\left(r,s,t\right)\in\left\{0,\ldots,m_1\right\}^3\\r+s+t=m_1\\6^r2^s3^t\leq n\\\end{matrix}}\frac{m_1!}{r!s!t!}T\left(\frac{n}{6^r\cdot2^s\cdot3^t}\right)+m_1n\\
+&\leq&\sum_{\tiny\begin{matrix}\left(r,s,t\right)\in\left\{0,\ldots,m_1\right\}^3\\r+s+t=m_1\\6^r2^s3^t\leq n\\\end{matrix}}\frac{m_1!}{r!s!t!}T\left(\frac{n}{2^r\cdot2^s\cdot2^t}\right)+m_1n\\
+&=&T\left(1\right)\sum_{\tiny\begin{matrix}\left(r,s,t\right)\in\left\{0,\ldots,m_1\right\}^3\\r+s+t=m_1\\6^r2^s3^t\leq n\\\end{matrix}}\frac{m_1!}{r!s!t!}+n\log n\\
+&=&T\left(1\right)n+n\log n=\Theta\left(n\log n\right)\\
+\end{array}$\\
+Επίσης, τελείως όμοια:\\
+$\begin{array}{lcl}\left(*\right)
+&\overset{k=m_2}{=}&\sum_{\tiny\begin{matrix}\left(r,s,t\right)\in\left\{0,\ldots,m_1\right\}^3\\r+s+t=m_2\\6^r2^s3^t\leq n\\\end{matrix}}\frac{m_2!}{r!s!t!}T\left(\frac{n}{6^r\cdot2^s\cdot3^t}\right)+m_2n\\
+&\geq&\sum_{\tiny\begin{matrix}\left(r,s,t\right)\in\left\{0,\ldots,m_2\right\}^3\\r+s+t=m_2\\6^r2^s3^t\leq n\\\end{matrix}}\frac{m_2!}{r!s!t!}T\left(\frac{n}{6^r\cdot6^s\cdot6^t}\right)+m_2n\\
+&=&T\left(1\right)\sum_{\tiny\begin{matrix}\left(r,s,t\right)\in\left\{0,\ldots,m_2\right\}^3\\r+s+t=m_2\\6^r2^s3^t\leq n\\\end{matrix}}\frac{m_2!}{r!s!t!}+n\log_6n\\
+&=&T\left(1\right)n+n\log_6n=\Theta\left(n\log n\right)\\
+\end{array}$\\
+Άρα, τελικά $T\left(n\right)=\Theta\left(n\log n\right)$.
+\item Έστω $m=n-1$, τότε:\\
+$\begin{array}{lcl}T\left(n\right)
+&=&T\left(n-1\right)+\frac{1}{n}\\
+&=&T\left(n-2\right)+\frac{1}{n-1}+\frac{1}{n}\\
+&\vdots&\\
+&=&T\left(n-k\right)+\sum_{i=0}^{k-1}\frac{1}{n-k}\ \ \forall k\\
+&\overset{k=m}{=}&T\left(1\right)+\sum_{s=2}^n\frac{1}{s}=\Theta\left(\log n\right)\\
+\end{array}$\\
+\item Έστω $m=\log\log n$ και $c_1,c_2,n_0$, κατάλληλα, ώστε:\\
+$T\left(n\right)=2T\left(\sqrt{n}\right)+f\left(n\right)$, με $c_1\log n\leq f\left(n\right)\leq c_2\log n$, $\forall n\geq n_0$. Έχουμε τότε:\\
+$\begin{array}{lcl}T\left(n\right)
+&=&2T\left(\sqrt{n}\right)+f\left(n\right)\\
+&=&2^2T\left(n^{\frac{1}{2^2}}\right)+2f\left(n^\frac{1}{2}\right)+f\left(n\right)\\
+&\vdots&\\
+&=&2^kT\left(n^\frac{1}{2^k}\right)+\sum_{i=0}^{k-1}2^if\left(n^\frac{1}{2^i}\right)\\
+&\overset{k=m}{=}&\log n T\left(2\right)+g\left(n\right)\\
+\end{array}$\\
+όπου $g\left(n\right)=\sum_{i=0}^{\log\log n-1}2^if\left(n^\frac{1}{2^i}\right)=\Theta\left(\log n\log\log n\right)$\\
+Πράγματι, αν $m>>n_0$, ισχύει:
+$$\sum_{i=0}^{\log\log n-1-n_0}2^ic_1\log n^\frac{1}{2^i}\leq g\left(n\right)\leq \sum_{i=0}^{\log\log n-1-n_0}2^ic_2\log n^\frac{1}{2^i}$$
+$$\Rightarrow c_1\log n\left(\log\log n-n_0\right)\leq g\left(n\right)\leq c_2\log n\left(\log\log n-n_0\right)$$
+άρα, ισχύει και $T\left(n\right)=\Theta\left(\log n\log\log n\right)$.
+\item Έστω $m=\frac{n}{10}$, τότε:\\
+$\begin{array}{lcl}T\left(n\right)
+&=&T\left(n-10\right)+\log n\\
+&=&T\left(n-2\cdot10\right)+\log\left(n-10\right)+\log n\\
+&\vdots&\\
+&=&T\left(n-k\cdot10\right)+\sum_{i=0}^{k-1}\log\left(n-10i\right)\ \ \forall k\\
+&\overset{k=m}{=}&T\left(0\right)+\sum_{i=0}^{m-1}\log\left(10\left(m-i\right)\right)\\
+&=&T\left(0\right)+\frac{n}{10}\log10+\sum_{s=1}^m\log s=\Theta\left(n\log n\right)\\
+\end{array}$\\
+\end{i_enum}
+\HRule\\
+{\bf Άσκηση 2}(α) Χρησιμοποιόντας \en{Counting Sort}, γίνεται ταξινόμηση σε χρόνο $\bigOh\left(n+M\right)$. Πράγματι:
+\latintext
+\begin{lstlisting}
+int* sort(int* A) {
+	int B[M];
+	for(int i=0;i<M;i++) B[i]=0;
+	for(int i=1;i<=n;i++) {
+		B[A[i]]++;
+	}
+	return B;
+}
+\end{lstlisting}
+\greektext
+Το κάτω φράγμα δεν ισχύει, γιατί ο αλγοριθμος δεν είναι συγκριτικός και έχουμε και επιπλέον πληροφορίες, δηλαδή: α) ότι το $A\left[i\right]$ είναι θετικός ακέραιος για κάθε $i$ και β) την ασυμπτωτική συμπεριφορά του μέγιστου στοιχείου, ως προς $n$.\\
+\HRule\\
+{\bf Άσκηση 2}(β) Τα φύλλα ενός συγκριτικού αλγορίθμου, για τον $A$ πρέπει να περιλαμβάνουν κάθε δυνατή σχέση μεταξύ των $A[i]$. Οι $A[1],\ldots,A[n]$ είναι ακέραιοι στο $\left\{1,\ldots,M\right\}$. Μία τέτοια σχέση είναι της μορφής:
+$$A[i_1]=A[i_2]=\cdots=A[i_{j_1}]<$$
+$$<A[i_{j_1+1}]=A[i_{j_1+2}]=\cdots=A[i_{j_2}]<$$
+$$<\cdots<$$
+$$<A[i_{j_{m-1}+1}]=A[i_{j_{m-1}+2}]=\cdots=A[i_{j_m}=i_n]$$
+όπου $i_1,\ldots,i_n$ αναδιάταξη των $1,\ldots,n$. Δηλαδή, αν $M\leq n$, κάθε πιθανή σχέση χαρακτηρίζεται από έναν αριθμό $0<m\leq M$, που είναι το πλήθος των διαφορετικών τιμών που λαμβάνουν τα $A[i]$, από τον χωρισμό των $A[i]$ σε $m$ μη κενές ομάδες και από κάθε πιθανή αναδιάταξη μεταξύ των $m$ ομάδων. Δηλαδή, το πλήθος των φύλλων είναι ακριβώς ίσο με
+$$l=\sum_{m=1}^Mm!S\left(n,m\right)$$
+όπου $S\left(n,m\right)$ οι αριθμοί \en{Stirling} δεύτερου είδους ($S\left(n,m\right)=\sum_{i=0}^m\left(-1\right)^i\binom{m}{i}\left(m-i\right)^n$). Για κάθε σταθερό $m$ ισχύει $S\left(n,m\right)=\Theta\left(\frac{m^n}{m!}\right)$, άρα, τελικά, ισχύει
+$$l=\sum_{m=1}^M\Theta\left(m^n\right)$$
+Άρα, το ύψος του δέντρου του βέλτιστου συγκριτικού αλγορίθμου είναι της τάξης $\log l=\Theta\left(n\log M\right)$. Άρα, για να υπάρχει συγκριτικός αλγόριθμος ταξινόμησης με χρόνο εκτέλεσης $\bigOh\left(n\log\log n\right)$, πρέπει $M=\bigOh\left(\log n\right)$. Ο παρακάτω συγκριτικός αλγόριθμος βασίζεται στη λογική της \en{Quicksort}. Συγκεκριμένα, ο αλγόριθμος σε κάθε αναδρομική κλήση του, χρησιμοποιεί γραμμικό χρόνο για να χωρίσει τον πίνακα σε 3 μέρη. Αριστερά τοποθετούνται τα στοιχεία μικρότερα του \en{pivot}, δεξιά τα μεγαλύτερα και στο κέντρο όσα στοιχεία είναι ίσα με το \en{pivot}. Ο κώδικας που υλοποιεί τον αλγόριθμο είναι:
+\latintext
+\begin{lstlisting}
+int* sort(int* A,int start, int end) {
+	int left=start,right=end;
+	int pivot=A[(right+left)/2];
+	int centerleft=(right+left)/2,centerright=(right+left)/2;
+	while(left<centerleft&&right>centerright) {
+		while(A[centerleft]==pivot&&centerleft>start) centerleft--;
+		while(A[centerright]==pivot&&centerright<end) centerright++;
+		while(A[left]<pivot) left++;
+		while(A[right]>pivot) right--;
+		if(A[left]==pivot&&left<centerleft) swap(A[left],A[centerleft]);
+		if(A[right]==pivot&&right>centerright) swap(A[right],A[centerright]);
+		if(A[right]<pivot&&A[left]>pivot) swap(A[left],A[right]);
+	}
+	while(left>=centerleft&&right>centerright) {
+		while(A[centerright]==pivot&&centerright<end) centerright++;
+		while(A[right]>pivot) right--;
+		if(A[right]==pivot&&right>centerright) swap(A[right],A[centerright]);
+		if(A[right]<pivot) {
+			swap(A[left],A[right]);
+			left++;
+		}
+	}
+	while(left<centerleft&&right<=centerright) {
+		while(A[centerleft]==pivot&&centerleft>start) centerleft--;
+		while(A[left]<pivot) left++;
+		if(A[left]==pivot&&left<centerleft) swap(A[left],A[centerleft]);
+		if(A[left]>pivot) {
+			swap(A[left],A[right]);
+			right--;
+		}
+	}
+	A=sort(A,start,left-1);
+	A=sort(A,right+1,end);
+	return A;
+}
+\end{lstlisting}
+\greektext
+Συγκεκριμένα, στο πρώτο βήμα, ο αλγόριθμος χρειάζεται χρόνο $T_0\left(n\right)=n$, στις 2 επόμενες αναδρομικές κλήσεις, ο αλγόριθμος θα χρειαστεί συνολικά χρόνο $T_1\left(n\right)=n-m_1$, όπου $m_1$ το πλήθος στοιχείων που είναι ίσα με το πρώτο \en{pivot}. Στο επόμενο βήμα (4 επιπλέον αναδρομικές κλήσεις), θα χρειαστεί χρόνο $T_2\left(n\right)=n-m_1-m_2-m_3$, όπου $m_2,m_3$ το πλήθος των στοιχείων για τα επόμενα 2 \en{pivots}, αντιστοίχως. Γενικά, στο βήμα $k$, θα ισχύει
+$$T_k\left(n\right)=n-\sum_{i=1}^{2^k-1}m_i$$
+όπου $m_i$, το πλήθος των στοιχείων που ταυτίζονται με το $i$-οστό \en{pivot} που χρησιμοποιείται. Γενικά, αν $T\left(n\right)$ ο χρόνος εκτέλεσης του προγράμματος, αθροίζοντας όλα τα βήματα, για $k\in\left\{0,\ldots,s=\log\left(M+1\right)\right\}$ ($M$ είναι το πλήθος των διαφορετικών στοιχείων, δηλαδή το πλήθος των $m_i$), ισχύει:
+$$\begin{array}{>{\displaystyle}rc>{\displaystyle}l}T\left(n\right)
+&=&n+\sum_{k=1}^s\left(n-\sum_{i=1}^{2^k-1}m_i\right)\\
+&=&\left(s+1\right)n-\sum_{k=1}^s\sum_{i=1}^{2^k-1}m_i\\
+&=&\left(s+1\right)n-\sum_{i=1}^{2^s-1}\sum_{k=\left\lceil\log\left(i+1\right)\right\rceil}^sm_i\\
+&=&\left(s+1\right)n-\sum_{i=1}^{2^s-1}m_i\sum_{k=\left\lceil\log\left(i+1\right)\right\rceil}^s1\\
+&=&\left(s+1\right)n-\sum_{i=1}^{2^s-1}m_i\left(s-\left\lceil\log\left(i+1\right)\right\rceil\right)\\
+&=&\left(s+1\right)n-s\sum_{i=1}^{2^s-1}m_i+\sum_{i=1}^{2^s-1}m_i\left\lceil\log\left(i+1\right)\right\rceil\\
+&\leq&\left(s+1\right)n-sn+\sum_{i=1}^{2^s-1}m_i\left\lceil\log\left(2^s\right)\right\rceil\\
+&=&\left(s+1\right)n-sn+s\sum_{i=1}^{2^s-1}m_i\\
+&=&\left(s+1\right)n\\
+&=&n\left(\log\left(M+1\right)+1\right)=\bigOh\left(n\log M\right)=\bigOh\left(n\log\log n\right)\\
+\end{array}$$
+όπου χρησιμοποιώ το γεγονός $n=\sum_{i=1}^Mm_i$.\\
+\HRule\\
+{\bf Άσκηση 2}(γ) Εφαρμόζοντας \en{radix sort} για τους αριθμούς στο $n$-αδικό σύστημα αρίθμησης, ταξινομείται ο $A$ σε γραμμικό χρόνο (δεδομένου ότι το $d$ είναι σταθερό). Συγκεκριμένα, ο κώδικας για τον αλγόριθμο είναι:
+\latintext
+\begin{lstlisting}
+void radixsort() {
+	int B[n][n];
+	int pointer[n];
+	for(int r=0;r<d;r++) {
+		for(int i=0;i<n;i++) point[i]=0;
+		for(int k=1;k<=n;k++) {
+			int digit=(A[k]/pow(n,d))%n;
+			B[digit][pointer[digit]]=A[k];
+			pointer[digit]++;
+		}
+		int k=1;
+		for(int s=0;s<n;s++) {
+			for(int i=0;i<pointer[s];i++) {
+				A[k]=B[s][i];
+				k++;
+			}
+		}
+	}
+}
+\end{lstlisting}
+\greektext
+\HRule\\
+{\bf Άσκηση 3}(α) 
+\begin{i_enum}
+\item Έστω $b_i=A[i]-i$ για $i\in\left\{1,\ldots,n\right\}$, τότε ισχύει $b_1\geq0$ και $b_n\leq0$. Έστω $m$ ο μικρότερος δείκτης, για τον οποίο ισχύει $b_m\geq 0$ και $b_{m+1}\leq0$. Ισχύει $b_m-b_{m+1}=A[m]-m-A[m+1]+m+1=\left|A[m]-A[m+1]\right|+1\leq k+1$, από την εκφώνηση. Αν $b_m>\frac{k+1}{2}$ και $b_{m+1}<-\frac{k+1}{2}$, τότε θα είχαμε άτοπο, άρα τουλάχιστον για ένα από τα $m$ και $m+1$ ισχύει το ζητούμενο.
+\item Ένας αποδοτικός αλγόριθμος είναι η δυαδική αναζήτηση στον πίνακα $A[i]$, (όπως στη μέθοδο για την εύρεση ρίζας σε συνεχή συνάρτηση). Η πολυπλοκότητα του αλγορίθμου είναι $\bigOh\left(\log n\right)$. Πράγματι, ο κώδικας του αλγορίθμου είναι:
+\latintext
+\begin{lstlisting}
+int findroot(int* A,int start, int end, int k) {
+	int med=(start+end)/2;
+	if(abs(A[med]-med)<=(k+1)/2) return med;
+	else return findroot(A,start,med);
+	else if(A[med]>med) return findroot(A,med,end);
+}
+\end{lstlisting}
+\greektext
+\end{i_enum}
+\HRule\\
+{\bf Άσκηση 3}(β) Ένας αποδοτικός αλγόριθμος είναι ο εξής: Έστω $A$ κάποιος πίνακας με $n$ γραμμές και $m$ στήλες. Με δυαδική αναζήτηση στη γραμμή $\frac{n}{2}$ βρίσκω $k_1$ με $A[n/2][k_1]\leq k$ και $A[n/2][k_1+1]>k$. Ομοίως ορίζω το $k_2$ στην στήλη $\frac{m}{2}$. Όποια από τα $A[n/2][k_1],A[k_2][m/2]$ είναι ίσα με $k$ τα εμφανίζω και αναδρομικά καλώ τον ίδιο αλγόριθμο 3 φορές, στους πίνακες:
+$$A[\max\{k_2,n/2\}\ldots n][1\ldots\min\{k_1,m/2\}]$$
+$$A[\min\{k_2,n/2\}\ldots\max\{k_2,n/2\}][\min\{k_1,m/2\}\ldots\max\{k_1,m/2\}]$$
+$$A[1\ldots\min\{k_2,n/2\}][\max\{m/2,k_1\}\ldots m]$$
+Επίσης, αν $a=min\{n,m\}$ και $b=max\{n,m\}$, τότε η δυαδική αναζήτηση στην διάσταση $a$ θα τελειώσει πιο νωρίς από τη διάσταση $b$. Προφανώς, από εκεί και πέρα, το πρόβλημα σε πίνακες γραμμές (αντίστοιχα πίνακες στήλες) λύνεται σε χρόνο $T'\left(k\right)=T\left(k,1\right)=T\left(1,k\right)=\Theta\left(\log k\right)$
+Ο κώδικας που αντιστοιχεί στον αλγόριθμο αυτό είναι:
+\latintext
+\begin{lstlisting}
+int findk(int* array,int start, int end, int k) {
+	if(start==end) return start;
+	if(start==end-1&&array[end]<=k) return end;
+	int med=(start+end)/2;
+	if(array[med]<=k&&array[med+1]>k) return med;
+	else if(array[med]<=med) return findk(A,med,end,k);
+	else return findk(A,start,med,k);
+}
+void printvaluek(int** A, int startn, int endn, int startm, int endm, int k) {
+	int medn=(startn+endn)/2;
+	int medm=(startm+endm)/2;
+	int Am[n],An[m];
+	for(int i=startn;i<=endn;i++) Am[i]=A[i][medm];
+	for(int i=startm;i<=endm;i++) An[i]=A[medn][i];
+	int kn=findk(Am,startn,endn,k);
+	int km=findk(An,startm,endm,k);
+	if(Am[kn]==k) cout<<"("<<kn<<";"<<medm<<")"<<endl;
+	if(An[km]==k) cout<<"("<<medn<<";"<<km<<")"<<endl;
+	if(startn!=endn&&startm!=endm) {
+		printvaluek(A,max(kn,medn),endn,startm,min(km,medm));
+		printvaluek(A,min(kn,medn),max(kn,medn),min(km,medm),max(km,medm));
+		printvaluek(A,startn,min(kn,medn),max(km,medm),endm);
+	}
+}
+\end{lstlisting}
+\greektext
+Η χειρότερη περίπτωση σε κάποια επανάληψη του αλγορίθμου, είναι ο μεσαίος πίνακας να εκφυλίζεται σε στοιχείο του πίνακα, να ισχύει δηλαδή $medn=kn$ (και άρα, κατά συνέπεια, $medm=km$). Άρα, αν $p=\log\left(\min\left\{m,n\right\}\right)$ και $q=\log\left(\min\left\{m,n\right\}\right)$ ισχύει:\\
+$\begin{array}{rcl}T\left(n,m\right)
+&\leq&2T\left(\frac{n}{2},\frac{m}{2}\right)+\log n+\log m\\
+&=&4T\left(\frac{n}{4},\frac{m}{4}\right)+2\log\frac{n}{2}+2\log\frac{m}{2}+\log n+\log m\\
+&\vdots&\\
+&=&2^kT\left(\frac{n}{2^k},\frac{m}{2^k}\right)+\sum_{i=0}^{k-1}2^i\log\frac{n}{2^i}+\sum_{i=0}^{k-1}2^i\log\frac{m}{2^i}\\
+&\overset{k=p}{=}&\min\{n,m\}T'\left(\frac{\max\{n,m\}}{\min\{n,m\}}\right)+\sum_{i=0}^{p-1}2^i\left(p-i\right)+\sum_{i=0}^{p-1}2^i\left(q-i\right)\\
+&=&\max\{n,m\}\log\frac{\max\{n,m\}}{\min\{n,m\}}+2^p\sum_{s=1}^p\frac{s}{2^s}+2^p\sum_{s=q-p+1}^p\frac{s}{2^s}\\
+&=&\bigOh\left(\min\{n,m\}\log\frac{\max\{n,m\}}{\min\{n,m\}}\right)\\
+\end{array}$\\
+Διακρίνω 2 περιπτώσεις:
+\begin{b_item}
+\item $\min\{n,m\}=\Theta\left(\max\{n,m\right\})$\\
+Σε αυτή την περίπτωση $\log\frac{\max\{n,m\}}{\min\{n,m\}}=\Theta\left(1\right)$, άρα, τελικά:\\
+$T\left(n,m\right)=\bigOh\left(\min\{n,m\}\right)=\bigOh\left(n\right)$
+\item $\min\{n,m\}=o\left(\max\{n,m\right\})$\\
+Σε αυτή την περίπτωση $\log\frac{\max\{n,m\}}{\min\{n,m\}}=\Theta\left(\log\max\{n,m\}\right)$. Πράγματι:
+$$\frac{\log\frac{\max\{n,m\}}{\min\{n,m\}}}{\log\max\{n,m\}}=\frac{\log\max\{n,m\}}{\log\max\{n,m\}}-\frac{\log\min\{n,m\}}{\log\max\{n,m\}}\to1$$
+άρα, τελικά:\\
+$T\left(n,m\right)=\bigOh\left(\min\{n,m\}\log\max\{n,m\}\right)$
+\end{b_item}
+\HRule\\
+{\bf Άσκηση 3}(γ) Κάθε συγκριτικός αλγόριθμος για το πρόβλημα (β), θα πρέπει να λαμβάνει υπ' όψιν όλες τις δυνατές θέσεις του $k$. Αυτές υπολογίζονται ως εξής: Διαλέγω $s$ το πλήθος των φορών που εμφανίζεται το $k$ στον πίνακα $A$, όπου $s\in\left\{0,\ldots,\min\{n,m\}\right\}$ και στη συνέχεια επιλέγω $s$ γραμμές από τις $n$ και $s$ στήλες από τις $m$. Έτσι καθορίζονται πλήρως οι θέσεις των στοιχείων $k$, καθώς πρέπει να ισχύει ότι σε κάθε στήλη και σε κάθε γραμμή τα στοιχεία είναι αύξουσα ακολουθία. Άρα, το πλήθος των δυνατών φύλλων είναι:
+$$l=\sum_{s=0}^{\min\{n,m\}}\binom{n}{s}\binom{m}{s}$$
+Για κάθε φυσικό αριθμό $N$, ισχύει η ακόλουθη ανισοτική σχέση $\binom{N}{i}\leq\binom{N}{\left\lfloor\frac{N}{2}\right\rfloor}$ για κάθε $i\in\left\{0,\ldots,N\right\}$. Επίσης, η συνάρτηση $\phi\left(i\right)=\binom{N}{i}$ είναι αύξουσα όταν $i\in\left\{1,\ldots,\left\lfloor\frac{N}{2}\right\rfloor\right\}$. Αν λοιπόν $\min\{n,m\}=o\left(\max\{n,m\}\right)$, τότε υπάρχει κάποιος φυσικός $n_0$, ώστε $\min\{n,m\}<\frac{\max\{n,m\}}{2}$ για κάθε $(n,m)$ με $\max\{n,m\}>n_0$, τότε ισχύει:
+$$\binom{\max\{n,m\}}{\min\{n,m\}}\leq l\leq\binom{\max\{n,m\}}{\min\{n,m\}}\sum_{s=0}^{\min\{n,m\}}\binom{\min\{n,m\}}{s}=\binom{\max\{n,m\}}{\min\{n,m\}}2^{\min\{n,m\}}$$
+Δηλαδή
+$$\Theta\left(\max\{n,m\}^{\min\{n,m\}}\right)\leq l\leq\Theta\left(\left(2\max\{n,m\}\right)^{\min\{n,m\}}\right)$$
+Άρα, ο χρόνος εκτέλεσης σε αυτή την περίπτωση είναι: $\log l=\Theta\left(\min\{n,m\}\log\max\{n,m\}\right)$.
+Διαφορετικά, αν $\min\{n,m\}=\Theta\left(\max\{n,m\}\right)$, τότε υπάρχουν κάποια $M,n_0\in\mathbb{N}$ ώστε $\left\lfloor\frac{\max\{n,m\}}{M}\right\rfloor\leq\min\{n,m\}$ για κάθε $(n,m)$ με $\max\{n,m\}>n_0$. Άρα, ισχύει:
+$$\binom{\max\{n,m\}}{\left\lfloor\frac{\max\{n,m\}}{M}\right\rfloor}\leq l\leq\binom{\max\{n,m\}}{\left\lfloor\frac{\max\{n,m\}}{M}\right\rfloor}\sum_{s=0}^{\min\{n,m\}}\binom{\min\{n,m\}}{s}=\binom{\max\{n,m\}}{\left\lfloor\frac{\max\{n,m\}}{M}\right\rfloor}2^{\min\{n,m\}}$$
+Όμως, χρησιμοποιόντας τον τύπο του \en{Stirling}, ισχύει
+$$\binom{\max\{n,m\}}{\left\lfloor\frac{\max\{n,m\}}{M}\right\rfloor}=\Theta\left(\frac{1}{\sqrt{\max\{n,m\}}}\frac{M^{\max\{n,m\}}}{\left(M-1\right)^{\frac{M-1}{M}\max\{n,m\}}}\right)$$
+Δηλαδή, ο χρόνος εκτέλεσης σε αυτή την περίπτωση είναι: $\log l=\Theta\left(\max\{n,m\}\right)$\\
+Αν $m\leq n$, τότε ισχύει $m=\min\{n,m\}$ και $n=\max\{n,m\}$, άρα οι περιπτώσεις γίνονται:
+\begin{b_item}
+\item Αν $m=\Theta\left(n\right)$, τότε $T\left(n,m\right)=\Theta\left(n\right)$
+\item Αν $m=o\left(n\right)$, τότε $T\left(n,m\right)=\Theta\left(m\log n\right)$
+\end{b_item}
+Αν τα $n,m$ δεν συγκρίνονται ασυμπτωτικά, τότε δεν έχω βρει κάτω φράγμα. Σε κάθε άλλη περίπτωση, ο αλγόριθμος του 4(β) είναι βέλτιστος.\\
+\HRule\\
+{\bf Άσκηση 4}(α) Με δυαδική αναζήτηση στο $\{1,\ldots,M\}$, βρίσκω $l$ τέτοιο ώστε $F_S\left(l\right)\leq k$ και $F_S\left(l+1\right)>k$. Ο κώδικας που υλοποιεί τον αλγόριθμο αυτό είναι:
+\latintext
+\begin{lstlisting}
+int findk(int start, int end, int k) {
+	int med=(start+end)/2;
+	if(F_S(med)<=k&&F_S(med+1)>k) return med;
+	else if(F_S(med)<=k) return findk(med,end,k);
+	else return findk(start,med,k);
+}
+\end{lstlisting}
+\greektext
+Ο αλγόριθμος, δηλαδή, χρειάζεται χρόνο (πλήθος κλήσεων της $F_S$) $\bigOh\left(\log M\right)$. (ανεξάρτητο του $n$).\\
+\HRule\\
+{\bf Άσκηση 4}(β) Για την υλοποίηση της $F_S$ εφαρμόζω \en{counting sort} στον πίνακα $A$ και προκύπτει πίνακας $B$, σε χρόνο $\bigOh\left(n+M\right)$. Κατασκευάζω μετά πίνακα $C$, με $C[i]=\sum_{j=1}^iB[j]$ (σε χρόνο $\bigOh\left(M\right)$) και στη συνέχεια, υπολογίζω την $F_S$ με τον τύπο: $F_S\left(l\right)=\sum_{i=1}^{M-l}\left(C[i+l]-C[i]\right)\cdot B[i]$ (σε χρόνο $\bigOh\left(M\right)$). Δηλαδή πολλαπλασιάζω το πλήθος των στοιχείων του $A$, που είναι από $i+1$ εως $i+l$ με το πλήθος των στοιχείων που είναι ακριβώς $i$, και στη συνέχεια αθροίζω πάνω από όλα τα $i$. Ο κώδικας που αντιστοιχεί σε αυτό είναι:
+\latintext
+\begin{lstlisting}
+int F_S(int l) {
+	int result=0;
+	for(int i=1;i<=M-l;i++) result+=(C[i+l]-C[i])*B[i];
+	return result;
+}
+int findk(int start, int end, int k) {
+	int med=(start+end)/2;
+	if(F_S(med)<=k&&F_S(med+1)>k) return med;
+	else if(F_S(med)<=k) return findk(med,end,k);
+	else return findk(start,med,k);
+}
+int main() {
+	int B[M],C[M];
+	for(int i=1;i<=M;i++) B[i]=0;
+	for(int i=1;i<=n;i++) B[A[i]]++;
+	C[1]=B[1];
+	for(int i=2;i<=M;i++) C[i]=C[i-1]+B[i];
+	cout<<findk(1,n,k)<<endl;
+}
+\end{lstlisting}
+\greektext
+Τελικά, ο αλγόριθμος κάνει χρόνο $\bigOh\left(n+M\log M\right)$
+\end{document}

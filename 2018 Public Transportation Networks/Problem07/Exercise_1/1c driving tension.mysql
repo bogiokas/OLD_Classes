@@ -1,0 +1,6 @@
+SELECT SUM(arr.minutes-dep.minutes) AS 'Tension of Driving Activities'
+	FROM stop_times dep
+		INNER JOIN stop_times arr
+		ON arr.trip_id = dep.trip_id -- same line
+		AND arr.stop_sequence = dep.stop_sequence+1 -- next station
+;

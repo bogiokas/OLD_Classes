@@ -1,0 +1,7 @@
+SELECT COUNT(DISTINCT CONCAT(arr.stop_id," ",dep.stop_id)) AS '# of Edges' -- count(*) would work here as well, but not in general
+	FROM stop_times dep
+		INNER JOIN stop_times arr
+		ON arr.trip_id = dep.trip_id -- same line
+		AND arr.stop_sequence = dep.stop_sequence +1 -- next station
+		AND arr.stop_id < dep.stop_id -- make the pair unordered
+;

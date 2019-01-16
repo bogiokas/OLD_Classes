@@ -1,0 +1,144 @@
+#include<iostream>
+
+using namespace std;
+typedef unsigned long int ulong;
+ulong A[10000000][2];
+ulong X[10000000];
+ulong Y[10000000];
+ulong Yup[10000000];
+ulong Ydown[10000000];
+ulong Xright[10000000];
+ulong Xleft[10000000];
+
+ulong quickselect(ulong* list,ulong k,ulong start,ulong end) {
+  ulong pivot=list[start];
+  ulong left=start;
+  ulong right=end;
+  ulong temp;
+  if(left==right) return pivot;
+  while(left<right) {
+    while(list[left]<=pivot&&left<end) left++;
+    while(list[right]>pivot&&right>start) right--;
+    temp=list[left];
+    list[left]=list[right];
+    list[right]=temp;
+  }
+  temp=list[left];
+  list[left]=list[right];
+  list[right]=list[start];
+  list[start]=temp;
+  if(list[left]>pivot) left--;
+  if(list[right]<=pivot) right++;
+  if(left==k-1) return list[left];
+  else if(left>k-1) return quickselect(list,k,start,left);
+  else return quickselect(list,k,right,end);
+}
+
+ulong dist(ulong a,ulong b) {
+  if(a>b) return a-b;
+  else return b-a;
+}
+
+int main() {
+
+  ulong N;
+  cin>>N;
+  ulong tmp;
+  for(ulong i=0;i<N;i++) {
+    cin>>tmp;
+    A[i][0]=tmp;
+    X[i]=tmp;
+    cin>>tmp;
+    A[i][1]=tmp;
+    Y[i]=tmp;
+  }
+  ulong xmed=quickselect(X,(N+1)/2,0,N-1);
+  ulong ymed=quickselect(Y,(N+1)/2,0,N-1);
+  ulong xmed2,ymed2;
+  if(N%2==0) {
+    xmed2=quickselect(X,N/2+1,0,N-1);
+    ymed2=quickselect(Y,N/2+1,0,N-1);
+  }
+  else {
+    xmed2=xmed;
+    ymed2=ymed;
+  }
+  cout<<xmed<<" "<<ymed<<endl;
+  cout<<xmed2<<" "<<ymed2<<endl;
+  ulong xmax=0,xmin=500000,ymax=0,ymin=500000;
+  for(ulong i=0;i<N;i++) {
+    if(A[i][0]>=xmed2) Xright[A[i][0]-xmed2]++;
+    if(A[i][0]<=xmed) Xleft[xmed-A[i][0]]++;
+    if(A[i][1]>=ymed2) Yup[A[i][1]-ymed2]++;
+    if(A[i][1]<=ymed) Ydown[ymed-A[i][1]]++;
+    if(A[i][0]>xmax) xmax=A[i][0];
+    if(A[i][0]<xmin) xmin=A[i][0];
+    if(A[i][1]>ymax) ymax=A[i][1];
+    if(A[i][1]<ymin) ymin=A[i][1];
+  }
+  for(int i=0;i<100;i++) {
+    cout<<Xright[i]<<" "<<Xleft[i]<<" "<<Yup[i]<<" "<<Ydown[i]<<endl;
+  }
+  xmax=xmax-xmed2;
+  xmin=xmed-xmin;
+  ymax=ymax-ymed2;
+  ymin=ymed-ymin;
+  if(xmed!=xmed2) {
+    Xright[0]+=Xleft[0];
+    Xleft[0]=Xright[0];
+  }
+  if(ymed!=ymed2) {
+    Yup[0]+=Ydown[0];
+    Ydown[0]=Yup[0];
+  }
+  ulong temporary=Xright[0];
+  for(ulong i=1;i<=xmax;i++) {
+    temporary+=Xright[i]*2;
+    Xright[i]=Xright[i-1]+temporary;
+//    cout<<Xright[i]<<" ";
+  }
+  cout<<endl;
+  temporary=Xleft[0];
+  for(ulong i=1;i<=xmin;i++) {
+    temporary+=Xleft[i]*2;
+    Xleft[i]=Xleft[i-1]+temporary;
+//    cout<<Xleft[i]<<" ";
+  }
+  cout<<endl;
+  temporary=Yup[0];
+  for(ulong i=1;i<=ymax;i++) {
+    temporary+=Yup[i]*2;
+    Yup[i]=Yup[i-1]+temporary;
+//    cout<<Yup[i]<<" ";
+  }
+  cout<<endl;
+  temporary=Ydown[0];
+  for(ulong i=1;i<=ymin;i++) {
+    temporary+=Ydown[i]*2;
+    Ydown[i]=Ydown[i-1]+temporary;
+//    cout<<Ydown[i]<<" ";
+  }
+  cout<<endl;
+  for(int i=0;i<100;i++) {
+    cout<<Xright[i]<<" "<<Xleft[i]<<" "<<Yup[i]<<" "<<Ydown[i]<<endl;
+  }
+  ulong result=10000000,tempresult=0,distance=0;
+  for(ulong i=0;i<N;i++) {
+    if(A[i][0]>xmed2) tempresult+=Xright[A[i][0]-xmed2-1];
+    else if(A[i][0]<xmed) tempresult+=Xleft[xmed-A[i][0]-1];
+    if(A[i][1]>ymed2) tempresult+=Yup[A[i][1]-ymed2-1];
+    else if(A[i][1]<ymed) tempresult+=Ydown[ymed-A[i][1]-1];
+    if(tempresult<result) result=tempresult;
+//    cout<<"shmeio "<<A[i][0]<<" "<<A[i][1]<<": "<<tempresult<<endl;
+    tempresult=0;
+    distance+=dist(A[i][0],xmed)+dist(A[i][1],ymed);
+  }
+  cout<<distance<<" "<<distance+result<<endl;
+/*  for(int i=0;i<100;i++) {
+    cout<<Xright[i]<<" "<<Xleft[i]<<" "<<Yup[i]<<" "<<Ydown[i]<<endl;
+  }*/
+
+
+
+  return 0;
+}
